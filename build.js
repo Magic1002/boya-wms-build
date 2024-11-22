@@ -30,8 +30,12 @@ const projectNamePrompt = [
         value: 'WMSdev'
       },
       {
-        name: '精益生产物料管理系统(仓储1.7服务器_https ip:192.168.1.7)',
+        name: '精益生产物料管理系统(仓储1.5服务器_https ip:192.168.1.5)',
         value: 'WMSdevSecure'
+      },
+      {
+        name: '精益生产物料管理系统(仓储内网域名服务器_https https://intranet.byimt.com)',
+        value: 'WMSdevIntranet'
       }
     ]
   }
