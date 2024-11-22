@@ -33,22 +33,25 @@ const transporter = nodemailer.createTransport({
   secureConnection: true, // 使用了 SSL
   auth: {
     // user: '773983210@qq.com',
+    // pass: 'foxyxamgunidbebf' // 这里密码不是邮箱登录密码，是你设置的smtp授权码
     user: '18295790529@163.com', // 发件人邮箱
-    // 这里密码不是qq密码，是你设置的smtp授权码
-    // pass: 'foxyxamgunidbebf'
-    pass: 'rrcqwtbjexlibadd' // 发件人邮箱密码或授权码
-    // pass: '163Email134658' // 发件人邮箱密码或授权码
+    pass: 'TPyzt37rdPExT48Z' // 发件人邮箱密码或授权码
   }
 })
 
-// const toEmail = '87937472@qq.com'
-// const toEmail = '773983210@qq.com'
+// const toEmail = '87937472@qq.com' // 吕工
+// const toEmail = '773983210@qq.com' // 王深
+
+// 打包测试包发送的目标邮件
 const maillistDev = [
-  '773983210@qq.com',
-  '568665691@qq.com'
+  // '773983210@qq.com',
+  // '568665691@qq.com',
+  '443859551@qq.com'
 ]
 
+// 打包生产包发送的目标邮件
 const maillistProd = [
+  '443859551@qq.com'
   // '87937472@qq.com', // 吕工
   // '773983210@qq.com',
   // '568665691@qq.com',
@@ -64,13 +67,15 @@ const maillistProd = [
   // 'whw18500517798@163.com' // 王海伟
 ]
 
+// 发送邮件
 function sendMail(message, projectName, zipName) {
   let messageHTML = ''
   message.packageTime.forEach(msg => {
     messageHTML += `<p style="text-indent: 2em;">${msg}</p>`
   })
-  const customerName = templateInfo[projectName].packageName || templateInfo[projectName].customer
+  const customerName = templateInfo[projectName].packageName || templateInfo[projectName].customer // 客户名称
   const zipFile = path.resolve(__dirname, zipName || `boya.tar.gz`)
+  // 获取选择的项目名称
   let chooseProjectName = ''
   projectNamePrompt.forEach(i => {
     if (i.value === projectName) {
@@ -80,7 +85,7 @@ function sendMail(message, projectName, zipName) {
   // 邮件选项
   const mailOptions = {
     // from: '"773983210" <773983210@qq.com>', // 发件人邮箱
-    from: '18295790529@163.com', // 发件人邮箱
+    from: '"畅夏尧" <18295790529@163.com>', // 发件人邮箱
     to: projectName.indexOf('dev') !== -1 ? maillistDev : maillistProd, // 收件人邮箱
     subject: `${customerName}打包文件`, // 邮件主题
     // 邮件正文（HTML）
@@ -93,7 +98,7 @@ function sendMail(message, projectName, zipName) {
         <h5>Good luck</h5><h4 style="text-indent:35em;">博雅智能</h4>`, // 内容主体
     attachments: [
       {
-        filename: `${customerName}${moment().format('YYYY-MM-DD')}.tar.gz`, // 附件文件名
+        filename: `${customerName}${moment().format('YYYY-MM-DD')}.tar.zip`, // 附件文件名
         path: zipFile // 附件文件路径
       }
     ]

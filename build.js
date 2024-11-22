@@ -202,7 +202,7 @@ async function organize(projectPromptInfo) {
 async function public1(projectPromptInfo) {
   const { projectName } = projectPromptInfo
   log.info(`*** 发布文件进行 zip 压缩  ***`)
-  await execCommand(path.resolve(__dirname, './'), 'tar -cvzf boya.tar.gz -C ./public .', '文件打压缩包失败')
+  await execCommand(path.resolve(__dirname, './'), 'tar -cvzf wms.tar.zip -C ./public .', '文件打压缩包失败')
   log.success(`*** 发布文件zip压缩成功  ***`)
   if (projectName === 'WMSdev') { // http://192.168.1.7
     const startTime = new Date().getTime() // 传输文件开始时间
@@ -218,7 +218,7 @@ async function public1(projectPromptInfo) {
     log.info(cspUseTime)
   }
 
-  sendMail(globalMessage, projectName)
+  sendMail(globalMessage, projectName, `wms.tar.zip`)
 }
 
 async function execCommand(cwd, command, errMsg) {
