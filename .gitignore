@@ -16,6 +16,9 @@ template/
 dist/
 
 # 忽略所有以 .gz .zip 结尾的文件
+wms.tar.zip
+
+# 忽略所有以 .gz .zip 结尾的文件
 \*.gz
 \*.zip
 
