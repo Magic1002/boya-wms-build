@@ -15,9 +15,12 @@ template/
 # 忽略所有目录下名为dist的文件夹
 dist/
 
-# 忽略所有以 .gz .zip 结尾的文件
-\*.gz
-\*.zip
+# 忽略任何扩展名的压缩包文件(‌‌ZIP格式\‌‌ZIP格式\‌‌7Z格式‌\TAR.GZ格式‌\)
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.tar.bz2
 
 # local env files
 .env.local

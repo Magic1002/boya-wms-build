@@ -100,7 +100,7 @@ function sendMail(message, projectName, zipName) {
         <h5>Good luck</h5><h4 style="text-indent:35em;">博雅智能</h4>`, // 内容主体
     attachments: [
       {
-        filename: `${customerName}${moment().format('YYYY-MM-DD')}.tar.zip`, // 附件文件名
+        filename: `${customerName}${moment().format('YYYY-MM-DD')}.tar.gz`, // 附件文件名
         path: zipFile // 附件文件路径
       }
     ]
