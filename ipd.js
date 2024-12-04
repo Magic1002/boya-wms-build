@@ -47,12 +47,14 @@ async function execCommand(cwd, command, errMsg) {
 
 async function auto() {
   // 这个路径根据自身项目结构进行调整
-  const boardCrd = path.resolve(__dirname, 'dist/board')
-  const sysWmsCrd = path.resolve(__dirname, 'dist/sys-wms')
-  const wmsCrd = path.resolve(__dirname, 'dist/wms')
-  await execCommand(boardCrd, 'yarn', 'board模块依赖安装过程失败！')
-  await execCommand(sysWmsCrd, 'yarn', 'board模块依赖安装过程失败！')
-  await execCommand(wmsCrd, 'yarn', 'board模块依赖安装过程失败！')
+  // const boardCrd = path.resolve(__dirname, 'dist/board')
+  // const sysWmsCrd = path.resolve(__dirname, 'dist/sys-wms')
+  // const wmsCrd = path.resolve(__dirname, 'dist/wms')
+  const boyaWmsBuildCrd = path.resolve(__dirname)
+  // await execCommand(boardCrd, 'yarn', 'board模块依赖安装过程失败！')
+  // await execCommand(sysWmsCrd, 'yarn', 'board模块依赖安装过程失败！')
+  // await execCommand(wmsCrd, 'yarn', 'board模块依赖安装过程失败！')
+  await execCommand(boyaWmsBuildCrd, 'yarn', '依赖安装过程失败！')
 }
 
 auto()
