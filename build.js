@@ -78,8 +78,13 @@ async function prepare(projectPromptInfo) {
     fse.copySync(path.resolve(__dirname, 'dist/board/src/views/Login/wms.vue'), path.resolve(__dirname, 'dist/board/src/views/Login/index.vue'))
     fse.copySync(path.resolve(__dirname, 'dist/board/src/views/reset-pwd/wms.vue'), path.resolve(__dirname, 'dist/board/src/views/reset-pwd/index.vue'))
     log.success('board模块 登录页面 重置密码页面 渲染文件替换成功！')
+    // vue.config.js 文件的替换
+    fse.copySync(path.resolve(__dirname, 'dist/board/vue.config_wms.js'), path.resolve(__dirname, 'dist/board/vue.config.js'))
+    log.success('board模块 vue.config.js文件 替换成功！')
+    // settings.js 文件的替换
     fse.copySync(path.resolve(__dirname, 'render/board/settings.js'), path.resolve(__dirname, 'dist/board/src/settings.js'))
     log.success('board模块 settings 替换成功！')
+    // .env.production 文件的替换
     fse.copySync(path.resolve(__dirname, `render/env/${projectName}/board/.env.production`), path.resolve(__dirname, 'dist/board/.env.production'))
     log.success('board模块 环境变量 替换成功！')
     // sys-wms
