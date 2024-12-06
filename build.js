@@ -6,7 +6,7 @@ const ejs = require('ejs')
 const inquirer = require('inquirer')
 
 const log = require('./log')
-const templateInfo = require('./data')
+const templateInfo = require('./info')
 const sendMail = require('./sendMail')
 
 const distDir = path.resolve(__dirname, 'dist')
@@ -46,8 +46,8 @@ let globalMessage = {}
 
 async function prepare(projectPromptInfo) {
   try {
+    const projectName = projectPromptInfo.projectName // 选择的项目名称
     // 拉取代码
-    const projectName = projectPromptInfo.projectName
     log.info('正在拉取gitlab最新代码。。。')
     await execCommand(temDir, 'git checkout master', '切换分支失败！')
     await execCommand(temDir, 'git pull', '代码拉取失败！')
@@ -61,15 +61,16 @@ async function prepare(projectPromptInfo) {
     // 清空dist内目录
     log.info('正在清空dist目录。。。')
     fse.emptyDirSync(distDir)
-    log.info('清空dist目录成功！')
+    log.success('清空dist目录成功！')
 
     // 复制最新代码到dist目录下
     log.info('正在拷贝源码到dist目录。。。')
     fse.copySync(temDir, distDir)
-    log.info('拷贝源码到dist目录成功！')
+    log.success('拷贝源码到dist目录成功！')
 
     // 替换对应渲染文件
     log.info('正在替换渲染文件。。。')
+
     // board
     log.info('***  正在替换的模块： board模块  ***')
     fse.copySync(path.resolve(__dirname, 'render/board/Board/index.vue'), path.resolve(__dirname, 'dist/board/src/views/Board/index.vue'))
@@ -87,6 +88,7 @@ async function prepare(projectPromptInfo) {
     // .env.production 文件的替换
     fse.copySync(path.resolve(__dirname, `render/env/${projectName}/board/.env.production`), path.resolve(__dirname, 'dist/board/.env.production'))
     log.success('board模块 环境变量 替换成功！')
+
     // sys-wms
     log.info('***  正在替换的模块： sys-wms模块  ***')
     fse.copySync(path.resolve(__dirname, 'render/sys-wms/system/menu/index.vue'), path.resolve(__dirname, 'dist/sys-wms/src/views/system/menu/index.vue'))
@@ -101,6 +103,7 @@ async function prepare(projectPromptInfo) {
     log.success('sys-wms模块 settings 替换成功！')
     fse.copySync(path.resolve(__dirname, `render/env/${projectName}/sys/.env.production`), path.resolve(__dirname, 'dist/sys-wms/.env.production'))
     log.success('sys-wms模块 环境变量 替换成功！')
+
     // wms
     log.info('***  正在替换的模块： wms模块  ***')
     fse.copySync(path.resolve(__dirname, 'render/wms/settings.js'), path.resolve(__dirname, 'dist/wms/src/settings.js'))
@@ -126,10 +129,9 @@ async function ejsRender(options, projectPromptInfo) {
         console.log(err)
         reject(err)
       }
+      const projectName = projectPromptInfo.projectName // 选择的项目名称
       Promise.all(files.map(file => {
         const filePath = path.join(distDir, file)
-        // 选择的项目名称
-        const projectName = projectPromptInfo.projectName
         return new Promise((resolve1, reject1) => {
           ejs.renderFile(filePath, templateInfo[projectName], {}, (err, result) => {
             if (err) {
@@ -141,13 +143,15 @@ async function ejsRender(options, projectPromptInfo) {
             resolve1(result)
           })
         })
-      })).then(() => {
-        log.success(`客户： ${templateInfo[projectPromptInfo.projectName].customer} 前端代码渲染成功！`)
-        resolve()
-      }).catch(err => {
-        log.error(err)
-        reject(err)
-      })
+      }))
+        .then(() => {
+          log.success(`客户： ${templateInfo[projectName].customer} 前端代码渲染成功！`)
+          resolve()
+        })
+        .catch(err => {
+          log.error(err)
+          reject(err)
+        })
     })
   })
 }
@@ -158,7 +162,7 @@ async function build(projectPromptInfo) {
   const boardCrd = path.resolve(__dirname, 'dist/board')
   const sysWmsCrd = path.resolve(__dirname, 'dist/sys-wms')
   const wmsCrd = path.resolve(__dirname, 'dist/wms')
-  const projectName = projectPromptInfo.projectName
+  const projectName = projectPromptInfo.projectName // 选择的项目名称
   log.info('***  board模块正在安装依赖...  ***')
   await execCommand(boardCrd, 'yarn', 'board模块依赖安装过程失败！')
   log.info('***  sys-wms模块正在安装依赖...  ***')
@@ -205,7 +209,7 @@ async function organize(projectPromptInfo) {
 }
 
 async function public1(projectPromptInfo) {
-  const { projectName } = projectPromptInfo
+  const projectName = projectPromptInfo.projectName // 选择的项目名称
   log.info(`*** 发布文件进行 zip 压缩  ***`)
   await execCommand(path.resolve(__dirname, './'), 'tar -cvzf wms.tar.gz -C ./public .', '文件打压缩包失败')
   log.success(`*** 发布文件zip压缩成功  ***`)

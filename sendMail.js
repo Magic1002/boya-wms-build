@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer')
 const moment = require('moment')
 const log = require('./log')
 moment.locale('zh-cn')
-const templateInfo = require('./data')
+const templateInfo = require('./info')
 
 const projectNamePrompt = [
   {
