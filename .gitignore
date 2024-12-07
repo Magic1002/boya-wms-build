@@ -10,7 +10,12 @@ node_modules
 /public
 
 # 忽略所有目录下名为template的文件夹
+# 这会告诉Git忽略template目录及其内容，不将其纳入版本控制
 template/
+# 如果你已经将子仓库提交到主仓库中，你还需要运行以下命令来从Git历史中移除它：
+# git rm --cached template
+# git commit -m "Remove template repository"
+
 
 # 忽略所有目录下名为dist的文件夹
 dist/
