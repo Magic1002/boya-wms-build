@@ -132,8 +132,10 @@ async function ejsRender(options, projectPromptInfo) {
       const projectName = projectPromptInfo.projectName // 选择的项目名称
       Promise.all(files.map(file => {
         const filePath = path.join(distDir, file)
+        console.log('filePath: ', filePath)
         return new Promise((resolve1, reject1) => {
           ejs.renderFile(filePath, templateInfo[projectName], {}, (err, result) => {
+            // result => 输出渲染后的 HTML 字符串
             if (err) {
               console.log(err)
               reject1(`${filePath} 渲染失败: ${err}`)
