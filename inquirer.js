@@ -5,6 +5,7 @@
 // 两个核心概念
 // 问题(question)
 // 回答(answer)
+const { name } = require('ejs')
 const inquirer = require('inquirer')
 // 定义question变量用来接收问题
 const question = [
@@ -32,6 +33,7 @@ const question = [
     name: 'xueli',
     message: '学历',
     choices: [
+      { name: 'chuzhong', value: '初中' },
       '高中',
       '大专',
       '本科',
