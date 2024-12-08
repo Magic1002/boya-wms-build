@@ -5,7 +5,6 @@
 // 两个核心概念
 // 问题(question)
 // 回答(answer)
-const { name } = require('ejs')
 const inquirer = require('inquirer')
 // 定义question变量用来接收问题
 const question = [
