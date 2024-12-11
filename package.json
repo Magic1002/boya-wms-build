@@ -1,6 +1,7 @@
 {
   "name": "boya-wms-build",
   "version": "1.0.0",
+  "type": "module",
   "description": "博雅仓储项目打包",
   "main": "build.js",
   "repository": {
