@@ -123,7 +123,7 @@ async function ejsRender(options, projectPromptInfo) {
     glob('**', {
       cwd: distDir,
       ignore: options.ignore || '',
-      nodir: true
+      nodir: true // 不匹配目录，只匹配文件
     }, (err, files) => {
       if (err) {
         console.log(err)
