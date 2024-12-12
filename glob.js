@@ -1,4 +1,5 @@
 // ‌require('glob')是Node.js中用于引入glob模块的方法。glob模块是一个用于匹配文件路径的模块，它可以通过通配符模式快速找到符合条件的文件或文件夹路径。
+// 参考地址：https://www.npmjs.com/package/glob
 // 使用方法
 // 1、‌同步获取文件路径‌：使用glob.sync(pattern[, options])方法可以同步地获取满足指定通配符模式的文件或文件夹路径列表。例如，获取所有的.js文件路径可以这样写：
 // const glob = require('glob');
