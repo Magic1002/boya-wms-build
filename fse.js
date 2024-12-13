@@ -1,4 +1,4 @@
-const fse = require('fs-extra')
+// const fse = require('fs-extra')
 // 1、新建文件text.txt，写入'hello word'
 // 第一个参数：文件路径(相对/绝对 路径都 可以)
 // 第二个参数：读取文件的编码(不写的话读取出来的是一个buffer，处理起来比较麻烦)
