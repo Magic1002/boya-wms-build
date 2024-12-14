@@ -1,7 +1,7 @@
 const templateInfo = {
   WMSHYCloud: {
     customer: '精益生产物料管理系统--WMS管理系统',
-    title: 'WMS管理系统',
+    title: '精益生产物料管理系统', // 登录页表单标题
     VUE_APP_BASE_API: 'http://10.75.25.79:8991',
     VUE_APP_BASE_API_WMS: 'http://10.75.25.79:8990',
     VUE_APP_BASE_API_ACTIVITI: 'http://10.75.25.79:8992',
@@ -59,7 +59,7 @@ const templateInfo = {
   },
   WMSdev: {
     customer: '精益生产物料管理系统--WMS管理系统',
-    title: 'WMS管理系统',
+    title: '精益生产物料管理系统', // 登录页表单标题
     VUE_APP_BASE_API: 'http://192.168.1.7:18990',
     VUE_APP_BASE_API_WMS: 'http://192.168.1.7:8990',
     VUE_APP_BASE_API_ACTIVITI: 'http://192.168.1.7:8991',
@@ -117,7 +117,7 @@ const templateInfo = {
   },
   WMSdevSecure: {
     customer: '精益生产物料管理系统--WMS管理系统',
-    title: 'WMS管理系统',
+    title: '精益生产物料管理系统', // 登录页表单标题
     VUE_APP_BASE_API: 'https://192.168.1.5:9005/api/system',
     VUE_APP_BASE_API_WMS: 'https://192.168.1.5:9005/api/wms',
     VUE_APP_BASE_API_ACTIVITI: 'https://192.168.1.5:9005/api/flowable',
@@ -175,7 +175,7 @@ const templateInfo = {
   },
   WMSdevIntranet: {
     customer: '精益生产物料管理系统--WMS管理系统',
-    title: 'WMS管理系统',
+    title: '精益生产物料管理系统', // 登录页表单标题
     VUE_APP_BASE_API: 'https://intranet.byimt.com/api/system',
     VUE_APP_BASE_API_WMS: 'https://intranet.byimt.com/api/wms',
     VUE_APP_BASE_API_ACTIVITI: 'https://intranet.byimt.com/api/flowable',
