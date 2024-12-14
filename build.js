@@ -298,7 +298,6 @@ async function auto() {
     // 模板渲染阶段
     const ignore = ['**/.git/**', '**/node_modules/**', '**/public/**', '**/tests/**', '**/assets/**']
     await ejsRender({ ignore }, projectPromptInfo)
-    return
     // 打包编译阶段
     await build(projectPromptInfo)
     // 整理打包文件
