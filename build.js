@@ -52,7 +52,7 @@ async function prepare(projectPromptInfo) {
     await execCommand(temDir, 'git checkout master', '切换分支失败！')
     await execCommand(temDir, 'git pull', '代码拉取失败！')
 
-    // 确保目录同步
+    // ensureDirSync：创建目录(确保目录的存在。如果目录结构不存在,就创建一个。)
     fse.ensureDirSync(distDir)
     fse.ensureDirSync(temDir)
     fse.ensureDirSync(renderDir)
@@ -60,7 +60,7 @@ async function prepare(projectPromptInfo) {
 
     // 清空dist内目录
     log.info('正在清空dist目录。。。')
-    fse.emptyDirSync(distDir)
+    fse.emptyDirSync(distDir) // 确保一个目录是空的。如果目录非空删除目录内容。如果目录不存在,就创建一个。目录本身并不是删除。
     log.success('清空dist目录成功！')
 
     // 复制最新代码到dist目录下
@@ -121,8 +121,9 @@ async function ejsRender(options, projectPromptInfo) {
   return new Promise((resolve, reject) => {
     log.info('开始渲染文件...')
     glob('**', {
-      cwd: distDir,
-      ignore: options.ignore || '',
+      // 这个对象的选项用来控制文件匹配的行为
+      cwd: distDir, // cwd 选项用于指定查找的起始目录
+      ignore: options.ignore || '', // 指定需要忽略的文件
       nodir: true // 不匹配目录，只匹配文件
     }, (err, files) => {
       if (err) {
@@ -132,14 +133,22 @@ async function ejsRender(options, projectPromptInfo) {
       const projectName = projectPromptInfo.projectName // 选择的项目名称
       Promise.all(files.map(file => {
         const filePath = path.join(distDir, file)
-        console.log('filePath: ', filePath)
         return new Promise((resolve1, reject1) => {
+          // 文件渲染(将信息提供给glob模块匹配到的文件，供文件使用。然后用ejs的renderFile方法进行页面渲染。)
+          // 参数1：文件名
+          // 参数2：传入文件的参数
+          // 参数3：配置属性
+          // 参数2：回调函数
+          // ejs.renderFile(filename, data, options, (err, str) => {
+          //   str => Rendered HTML string
+          // })
           ejs.renderFile(filePath, templateInfo[projectName], {}, (err, result) => {
             // result => 输出渲染后的 HTML 字符串
             if (err) {
               console.log(err)
               reject1(`${filePath} 渲染失败: ${err}`)
             }
+            // 同步地将数据写入文件，如果文件不存在会被创建，如果文件已存在则替换它。
             fse.writeFileSync(filePath, result)
             // log.info(`文件渲染成功： ${filePath}`)
             resolve1(result)
@@ -289,6 +298,7 @@ async function auto() {
     // 模板渲染阶段
     const ignore = ['**/.git/**', '**/node_modules/**', '**/public/**', '**/tests/**', '**/assets/**']
     await ejsRender({ ignore }, projectPromptInfo)
+    return
     // 打包编译阶段
     await build(projectPromptInfo)
     // 整理打包文件
