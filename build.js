@@ -11,6 +11,7 @@ const sendMail = require('./sendMail')
 
 const distDir = path.resolve(__dirname, 'dist')
 const temDir = path.resolve(__dirname, 'template')
+const boyaDir = path.resolve(__dirname, 'boya')
 const renderDir = path.resolve(__dirname, 'render')
 const publicDir = path.resolve(__dirname, 'public')
 
@@ -47,16 +48,27 @@ let globalMessage = {}
 async function prepare(projectPromptInfo) {
   try {
     const projectName = projectPromptInfo.projectName // 选择的项目名称
-    // 拉取代码
-    log.info('正在拉取gitlab最新代码。。。')
-    await execCommand(temDir, 'git checkout master', '切换分支失败！')
-    await execCommand(temDir, 'git pull', '代码拉取失败！')
 
     // ensureDirSync：创建目录(确保目录的存在。如果目录结构不存在,就创建一个。)
     fse.ensureDirSync(distDir)
     fse.ensureDirSync(temDir)
     fse.ensureDirSync(renderDir)
     fse.ensureDirSync(publicDir)
+
+    // 如果template目录为空，则删除目录。将项目克隆下来再更名为template。
+    const isTemDirEmpty = isDirectoryEmpty(temDir)
+    if (isTemDirEmpty) {
+      removeDir(temDir)
+      log.info('正在克隆GitHub远程仓库。。。')
+      await execCommand(__dirname, 'git clone git@github.com:Jasonwang911/boya.git', 'GitHub远程仓库克隆失败！')
+      log.success('GitHub远程仓库克隆成功！')
+      modifyDir(boyaDir, temDir)
+    }
+
+    // 拉取代码
+    log.info('正在拉取gitlab最新代码。。。')
+    await execCommand(temDir, 'git checkout master', '切换分支失败！')
+    await execCommand(temDir, 'git pull', '代码拉取失败！')
 
     // 清空dist内目录
     log.info('正在清空dist目录。。。')
@@ -287,6 +299,36 @@ function execAsync(command, args, options) {
 
 function costTime(start, end) {
   return `${Math.floor((end - start) / 1000)} s`
+}
+
+// 检查目录是否为空
+function isDirectoryEmpty(dirPath) {
+  try {
+    const files = fse.readdirSync(dirPath)
+    return files.length === 0
+  } catch (err) {
+    console.error('Error checking directory:', err)
+    return null
+  }
+}
+
+// 删除目录
+function removeDir(dirPath) {
+  try {
+    fse.removeSync(dirPath);
+      console.log(`Directory ${dirPath} is successfully deleted.`);
+    } catch (err) {
+      console.error(`Error while deleting directory ${dirPath}: ${err}`);
+    }
+}
+
+// 修改目录
+function modifyDir(oldDirPath, newDirPath) {
+  try {
+    fse.renameSync(oldDirPath, newDirPath)
+  } catch (error) {
+    console.error(err);
+  }
 }
 
 async function auto() {
