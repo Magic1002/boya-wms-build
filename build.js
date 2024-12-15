@@ -12,7 +12,6 @@ const sendMail = require('./sendMail')
 const distDir = path.resolve(__dirname, 'dist')
 const temDir = path.resolve(__dirname, 'template')
 const boyaDir = path.resolve(__dirname, 'boya')
-const renderDir = path.resolve(__dirname, 'render')
 const publicDir = path.resolve(__dirname, 'public')
 
 // 项目信息
@@ -52,7 +51,6 @@ async function prepare(projectPromptInfo) {
     // ensureDirSync：创建目录(确保目录的存在。如果目录结构不存在,就创建一个。)
     fse.ensureDirSync(distDir)
     fse.ensureDirSync(temDir)
-    fse.ensureDirSync(renderDir)
     fse.ensureDirSync(publicDir)
 
     // 如果template目录为空，则删除目录。将项目克隆下来再更名为template。
