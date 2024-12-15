@@ -176,6 +176,57 @@ async function ejsRender(options, projectPromptInfo) {
     })
   })
 }
+// 相比较上一版区别在于：
+// 这一版没使用glob。原因是没有那么多的文件需要编译，没必要把整个dist目录重新编译一遍。
+// 哪个文件需要编译然后再进行精准编译，不会造成性能浪费。
+async function ejsRender1(options, projectPromptInfo) {
+  return new Promise((resolve, reject) => {
+  const projectName = projectPromptInfo.projectName // 选择的项目名称
+  const files = [
+    path.resolve(__dirname, 'dist/board/src/views/Board/index.vue'),
+    path.resolve(__dirname, 'dist/board/src/settings.js'),
+    path.resolve(__dirname, 'dist/board/.env.production'),
+    path.resolve(__dirname, 'dist/sys-wms/src/views/system/menu/index.vue'),
+    path.resolve(__dirname, 'dist/sys-wms/src/views/system/role/menus.vue'),
+    path.resolve(__dirname, 'dist/sys-wms/src/views/system/dictionary/index.vue'),
+    path.resolve(__dirname, 'dist/sys-wms/src/settings.js'),
+    path.resolve(__dirname, 'dist/sys-wms/.env.production'),
+    path.resolve(__dirname, 'dist/wms/src/settings.js'),
+    path.resolve(__dirname, 'dist/wms/.env.production')
+  ]
+  Promise.all(files.map(filePath => {
+    return new Promise((resolve1, reject1) => {
+      // 文件渲染(将信息提供给glob模块匹配到的文件，供文件使用。然后用ejs的renderFile方法进行页面渲染。)
+      // 参数1：文件名
+      // 参数2：传入文件的参数
+      // 参数3：配置属性
+      // 参数2：回调函数
+      // ejs.renderFile(filename, data, options, (err, str) => {
+      //   str => Rendered HTML string
+      // })
+      ejs.renderFile(filePath, templateInfo[projectName], {}, (err, result) => {
+        // result => 输出渲染后的 HTML 字符串
+        if (err) {
+          console.log(err)
+          reject1(`${filePath} 渲染失败: ${err}`)
+        }
+        // 同步地将数据写入文件，如果文件不存在会被创建，如果文件已存在则替换它。
+        fse.writeFileSync(filePath, result)
+        // log.info(`文件渲染成功： ${filePath}`)
+        resolve1(result)
+      })
+    })
+  }))
+    .then(() => {
+      log.success(`客户： ${templateInfo[projectName].customer} 前端代码渲染成功！`)
+      resolve()
+    })
+    .catch(err => {
+      log.error(err)
+      reject(err)
+    })
+  })
+}
 
 async function build(projectPromptInfo) {
   // 1. 安装依赖
@@ -337,7 +388,8 @@ async function auto() {
     await prepare(projectPromptInfo)
     // 模板渲染阶段
     const ignore = ['**/.git/**', '**/node_modules/**', '**/public/**', '**/tests/**', '**/assets/**']
-    await ejsRender({ ignore }, projectPromptInfo)
+    // await ejsRender({ ignore }, projectPromptInfo)
+    await ejsRender1({ ignore }, projectPromptInfo)
     // 打包编译阶段
     await build(projectPromptInfo)
     // 整理打包文件
@@ -354,7 +406,8 @@ auto()
 
 module.exports = {
   prepare,
-  ejsRender,
+  ejsRender, // 使用了glob模块
+  ejsRender1, // 未使用glob模块
   build,
   organize,
   public1
