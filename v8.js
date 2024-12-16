@@ -14,11 +14,11 @@ console.log(`Old space memory total: ${oldSpaceMemory.space_size / 1024 / 1024} 
 // 设置Node.js进程的最大老生代内存为1GB
 // 在运行时通过代码设置（仅限于调整不超过当前分配的内存大小）：
 // try {
-//     global.gc() // 尝试强制进行垃圾回收以释放内存
-//     const maxMemory = 1024
-//     v8.setFlagsFromString(`--max-old-space-size=${maxMemory}`)
-//     console.log('Max old space size set to 1024 MB')
+//   global.gc() // 尝试强制进行垃圾回收以释放内存
+//   const maxMemory = 1024
+//   v8.setFlagsFromString(`--max-old-space-size=${maxMemory}`)
+//   console.log('Max old space size set to 1024 MB')
 // } catch (e) {
-//     console.error('Failed to set max old space size', e)
+//   console.error('Failed to set max old space size', e)
 // }
 // 你的应用程序代码
