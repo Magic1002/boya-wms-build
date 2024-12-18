@@ -181,21 +181,21 @@ async function ejsRender(options, projectPromptInfo) {
 // 哪个文件需要编译然后再进行精准编译，不会造成性能浪费。
 async function ejsRender1(options, projectPromptInfo) {
   return new Promise((resolve, reject) => {
-  const projectName = projectPromptInfo.projectName // 选择的项目名称
-  const files = [
-    path.resolve(__dirname, 'dist/board/src/views/Board/index.vue'),
-    path.resolve(__dirname, 'dist/board/src/settings.js'),
-    path.resolve(__dirname, 'dist/board/.env.production'),
-    path.resolve(__dirname, 'dist/sys-wms/src/views/system/menu/index.vue'),
-    path.resolve(__dirname, 'dist/sys-wms/src/views/system/role/menus.vue'),
-    path.resolve(__dirname, 'dist/sys-wms/src/views/system/dictionary/index.vue'),
-    path.resolve(__dirname, 'dist/sys-wms/src/settings.js'),
-    path.resolve(__dirname, 'dist/sys-wms/.env.production'),
-    path.resolve(__dirname, 'dist/wms/src/settings.js'),
-    path.resolve(__dirname, 'dist/wms/.env.production')
-  ]
-  Promise.all(files.map(filePath => {
-    return new Promise((resolve1, reject1) => {
+    const projectName = projectPromptInfo.projectName // 选择的项目名称
+    const files = [
+      path.resolve(__dirname, 'dist/board/src/views/Board/index.vue'),
+      path.resolve(__dirname, 'dist/board/src/settings.js'),
+      path.resolve(__dirname, 'dist/board/.env.production'),
+      path.resolve(__dirname, 'dist/sys-wms/src/views/system/menu/index.vue'),
+      path.resolve(__dirname, 'dist/sys-wms/src/views/system/role/menus.vue'),
+      path.resolve(__dirname, 'dist/sys-wms/src/views/system/dictionary/index.vue'),
+      path.resolve(__dirname, 'dist/sys-wms/src/settings.js'),
+      path.resolve(__dirname, 'dist/sys-wms/.env.production'),
+      path.resolve(__dirname, 'dist/wms/src/settings.js'),
+      path.resolve(__dirname, 'dist/wms/.env.production')
+    ]
+    Promise.all(files.map(filePath => {
+      return new Promise((resolve1, reject1) => {
       // 文件渲染(将信息提供给glob模块匹配到的文件，供文件使用。然后用ejs的renderFile方法进行页面渲染。)
       // 参数1：文件名
       // 参数2：传入文件的参数
@@ -204,27 +204,27 @@ async function ejsRender1(options, projectPromptInfo) {
       // ejs.renderFile(filename, data, options, (err, str) => {
       //   str => Rendered HTML string
       // })
-      ejs.renderFile(filePath, templateInfo[projectName], {}, (err, result) => {
+        ejs.renderFile(filePath, templateInfo[projectName], {}, (err, result) => {
         // result => 输出渲染后的 HTML 字符串
-        if (err) {
-          console.log(err)
-          reject1(`${filePath} 渲染失败: ${err}`)
-        }
-        // 同步地将数据写入文件，如果文件不存在会被创建，如果文件已存在则替换它。
-        fse.writeFileSync(filePath, result)
-        // log.info(`文件渲染成功： ${filePath}`)
-        resolve1(result)
+          if (err) {
+            console.log(err)
+            reject1(`${filePath} 渲染失败: ${err}`)
+          }
+          // 同步地将数据写入文件，如果文件不存在会被创建，如果文件已存在则替换它。
+          fse.writeFileSync(filePath, result)
+          // log.info(`文件渲染成功： ${filePath}`)
+          resolve1(result)
+        })
       })
-    })
-  }))
-    .then(() => {
-      log.success(`客户： ${templateInfo[projectName].customer} 前端代码渲染成功！`)
-      resolve()
-    })
-    .catch(err => {
-      log.error(err)
-      reject(err)
-    })
+    }))
+      .then(() => {
+        log.success(`客户： ${templateInfo[projectName].customer} 前端代码渲染成功！`)
+        resolve()
+      })
+      .catch(err => {
+        log.error(err)
+        reject(err)
+      })
   })
 }
 
@@ -364,11 +364,11 @@ function isDirectoryEmpty(dirPath) {
 // 删除目录
 function removeDir(dirPath) {
   try {
-    fse.removeSync(dirPath);
-      console.log(`Directory ${dirPath} is successfully deleted.`);
-    } catch (err) {
-      console.error(`Error while deleting directory ${dirPath}: ${err}`);
-    }
+    fse.removeSync(dirPath)
+    console.log(`Directory ${dirPath} is successfully deleted.`)
+  } catch (err) {
+    console.error(`Error while deleting directory ${dirPath}: ${err}`)
+  }
 }
 
 // 修改目录
@@ -376,7 +376,7 @@ function modifyDir(oldDirPath, newDirPath) {
   try {
     fse.renameSync(oldDirPath, newDirPath)
   } catch (error) {
-    console.error(err);
+    console.error(err)
   }
 }
 

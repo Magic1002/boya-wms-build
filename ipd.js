@@ -9,7 +9,7 @@ function exec(command, args, options) {
   const cmd = win32 ? 'cmd' : command
   // 命令参数 -c 静默执行
   const cmdArgs = win32 ? ['/c'].concat(command, args) : args
-
+  // 启动一个子进程来执行命令
   return require('child_process').spawn(cmd, cmdArgs, options || {})
 }
 
@@ -25,7 +25,7 @@ function execAsync(command, args, options) {
     })
   })
 }
-
+// cwd-当前工作路径 command-命令 errMsg-错误提示
 async function execCommand(cwd, command, errMsg) {
   let ret = null
   if (command) {
@@ -35,7 +35,7 @@ async function execCommand(cwd, command, errMsg) {
     //  cmd: npm   args: ['install']
     ret = await execAsync(cmd, args, {
       stdio: 'inherit',
-      cwd
+      cwd // 当前工作路径
     })
   }
   if (ret !== 0) {
