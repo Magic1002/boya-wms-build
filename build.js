@@ -376,7 +376,7 @@ function modifyDir(oldDirPath, newDirPath) {
   try {
     fse.renameSync(oldDirPath, newDirPath)
   } catch (error) {
-    console.error(err)
+    console.error(error)
   }
 }
 
