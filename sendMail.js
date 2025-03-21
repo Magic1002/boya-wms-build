@@ -46,13 +46,14 @@ const transporter = nodemailer.createTransport({
 const maillistDev = [
   // '773983210@qq.com',
   // '568665691@qq.com',
-  '443859551@qq.com' // me
+  '443859551@qq.com', // me
   // 'zb18539701268@163.com' // 帅博
+  'whw18500517798@163.com' // 王海伟
 ]
 
 // 打包生产包发送的目标邮件
 const maillistProd = [
-  '443859551@qq.com' // me
+  '443859551@qq.com', // me
   // 'zb18539701268@163.com', // 帅博
   // '87937472@qq.com', // 吕工
   // '773983210@qq.com',
@@ -66,7 +67,7 @@ const maillistProd = [
   // '576259100@qq.com', // 宋海涛
   // '18295790529@163.com', // 畅智锋
   // 'm17718563027@163.com', // 杨泽赵
-  // 'whw18500517798@163.com' // 王海伟
+  'whw18500517798@163.com' // 王海伟
 ]
 
 // 发送邮件
