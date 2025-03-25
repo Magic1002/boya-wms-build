@@ -75,7 +75,11 @@ async function prepare(projectPromptInfo) {
 
     // 复制最新代码到dist目录下
     log.info('正在拷贝源码到dist目录。。。')
-    fse.copySync(temDir, distDir)
+    // fse.copySync(temDir, distDir)
+    const b = await copyFile(projectName)
+    if (!b) {
+      return
+    }
     log.success('拷贝源码到dist目录成功！')
 
     // 替换对应渲染文件
@@ -348,6 +352,18 @@ function execAsync(command, args, options) {
 
 function costTime(start, end) {
   return `${Math.floor((end - start) / 1000)} s`
+}
+async function copyFile(projectName) {
+  let n = 0
+  templateInfo[projectName].buildFilesList.map(item => {
+    fse.ensureDirSync(distDir + '/' + item)
+    fse.copySync(temDir + '/' + item, distDir + '/' + item)
+    n++
+  })
+  if (n === templateInfo[projectName].buildFilesList.length) {
+    return true
+  }
+  return false
 }
 
 // 检查目录是否为空
