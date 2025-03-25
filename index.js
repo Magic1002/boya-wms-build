@@ -354,13 +354,14 @@ function costTime(start, end) {
   return `${Math.floor((end - start) / 1000)} s`
 }
 async function copyFile(projectName) {
+  const buildFilesList = ['board', 'sys-wms', 'wms']
   let n = 0
-  templateInfo[projectName].buildFilesList.map(item => {
+  buildFilesList.map(item => {
     fse.ensureDirSync(distDir + '/' + item)
     fse.copySync(temDir + '/' + item, distDir + '/' + item)
     n++
   })
-  if (n === templateInfo[projectName].buildFilesList.length) {
+  if (n === buildFilesList.length) {
     return true
   }
   return false
