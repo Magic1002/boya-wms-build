@@ -2,7 +2,7 @@
   "name": "boya-wms-build",
   "version": "1.0.0",
   "description": "博雅仓储项目打包",
-  "main": "build.js",
+  "main": "index.js",
   "repository": {
     "url": "https://github.com/Magic1002",
     "type": "git"
