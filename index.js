@@ -6,7 +6,7 @@ const ejs = require('ejs')
 const inquirer = require('inquirer')
 
 const log = require('./log')
-const templateInfo = require('./info')
+const templateInfo = require('./data')
 const sendMail = require('./sendMail')
 
 const distDir = path.resolve(__dirname, 'dist')
@@ -24,6 +24,10 @@ const projectNamePrompt = [
       {
         name: '精益生产物料管理系统(仓储海油云服务器 ip:10.75.25.79)',
         value: 'WMSHYCloud'
+      },
+      {
+        name: '精益生产物料管理系统(仓储1.4服务器_http ip:192.168.1.4)',
+        value: 'WMSHYTest' // 海油测试
       },
       {
         name: '精益生产物料管理系统(仓储1.7服务器_http ip:192.168.1.7)',
